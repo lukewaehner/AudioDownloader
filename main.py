@@ -71,17 +71,30 @@ def configure_download_directory():
 def main():
     print("Welcome to the Audio Downloader!")
     print("1. Download YouTube audio")
-    print("2. Change download directory")
+    print("2. Download Soundcloud audio")
+    print("M. Change download directory")
 
     choice = input("Enter your choice: ").strip()
     if choice == "1":
-        from youtube import (
+        from youtube.youtube import (
             download_youtube_audio,
         )  # Import dynamically to avoid circular dependencies
 
         url = input("Enter the URL: ").strip()
         download_youtube_audio(url)
     elif choice == "2":
+        """Soundcloud Downloader Code"""
+        from soundcloud.soundcloud import (
+            SoundCloudDownloader,
+        )  # Import dynamically to avoid circular dependencies
+
+        dl = SoundCloudDownloader(download_path=load_settings()["download_directory"])
+        track_url = input(
+            "Enter the URL of the Soundcloud Song you want to download "
+        ).strip()
+        dl.download(track_url)
+    elif choice.lower() == "m":
+        """Change download directory"""
         configure_download_directory()
     else:
         print("Invalid choice.")
